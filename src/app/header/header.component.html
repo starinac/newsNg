@@ -3,19 +3,19 @@
         <div><a href="https://www.github.com/starinac" class="navbar-brand">News</a></div>
 
         <ul class="navbar-nav">
-            <!-- <ng-template [ngIf]="authService.isAuthenticated()"> -->
-            <li routerLinkActive="active"><a routerLink="/home" class="nav-link">Home</a></li>
-            <li routerLinkActive="active"><a routerLink="/news" class="nav-link">News</a></li>
+            <!-- <ng-template [ngIf]="authService.isUserLogedIn()"> -->
+                <li><a *ngIf="authService.isUserLogedIn()" routerLink="/home" class="nav-link">Home</a></li>
+                <li><a *ngIf="authService.isUserLogedIn()" routerLink="/news" class="nav-link">News</a></li>
             <!-- </ng-template> -->
         </ul>
 
         <ul class="navbar-nav navbar-collapse justify-content-end">
-            <!-- <ng-template [ngIf]="!authService.isAuthenticated()"> -->
-                <li><a routerLink="/login" class="nav-link">Login</a></li>
+            <!-- <ng-template *ngIf="!authService.isUserLogedIn()"> -->
+                <li><a *ngIf="!authService.isUserLogedIn()" routerLink="/login" class="nav-link">Login</a></li>
             <!-- </ng-template> -->
-            <!-- <ng-template [ngIf]="authService.isAuthenticated()"> -->
+            <!-- <ng-template *ngIf="authService.isUserLogedIn()"> -->
                 <!-- <li><a (click)="onLogout()" routerLink="/logout" class="nav-link">Logout</a></li> -->
-                <li><a routerLink="/logout" class="nav-link">Logout</a></li>
+                <li><a *ngIf="authService.isUserLogedIn()" (click)="onLogout()" routerLink="/logout" class="nav-link">Logout</a></li>
             <!-- </ng-template> -->
         </ul>
     </nav>

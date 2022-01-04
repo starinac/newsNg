@@ -9,19 +9,20 @@
 </head>
 
 <body>
-    <form>
+    <div class="alert aler-warning" *ngIf="isInvalidLogin()">{{errorMessage}}</div>
+    <form class="login-form">
         <div class="container">
             <label for="uname"><b>Username</b></label>
-            <input type="text" placeholder="Enter Username" name="uname" required>
+            <input type="text" name="username" [(ngModel)]="username" placeholder="Enter Username" required>
 
             <label for="psw"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="psw" required>
+            <input type="password" name="password" [(ngModel)]="password" placeholder="Enter Password" name="psw" required>
 
-            <button type="submit" class="btn btn-success">Login</button>
+            <button (click)="handleLogin()" type="submit" class="btn btn-success">Login</button>
             <label>
                 <input type="checkbox" checked="checked" name="remember"> Remember me
             </label>
-            <span class="psw">Forgot <a href="#">password?</a></span>
+            <!-- <span class="psw">Forgot <a href="#">password?</a></span> -->
         </div>
 
         <div class="container">    
