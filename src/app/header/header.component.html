@@ -10,12 +10,15 @@
         </ul>
 
         <ul class="navbar-nav navbar-collapse justify-content-end">
-            <!-- <ng-template *ngIf="!authService.isUserLogedIn()"> -->
-                <li><a *ngIf="!authService.isUserLogedIn()" routerLink="/login" class="nav-link">Login</a></li>
+            <!-- <ng-template [ngIf]="!authService.isAuthenticated()"> -->
+                <li><a routerLink="/login" class="nav-link">Log In</a></li>
+            <!-- </ng-template> -->
+            <!-- <ng-template [ngIf]="!authService.isAuthenticated()"> -->
+                <li><a routerLink="/sign-up" class="nav-link">Sign Up</a></li>
             <!-- </ng-template> -->
             <!-- <ng-template *ngIf="authService.isUserLogedIn()"> -->
                 <!-- <li><a (click)="onLogout()" routerLink="/logout" class="nav-link">Logout</a></li> -->
-                <li><a *ngIf="authService.isUserLogedIn()" (click)="onLogout()" routerLink="/logout" class="nav-link">Logout</a></li>
+                <li><a routerLink="/logout" class="nav-link">Log out</a></li>
             <!-- </ng-template> -->
         </ul>
     </nav>
