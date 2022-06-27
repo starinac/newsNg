@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
     this.authenticationService.executeJWTAuthentication(this.username, this.password)
     .subscribe(
       data => {
-        this.router.navigateByUrl('news');
+        this.router.navigateByUrl('check');
       },
       error => {
         console.log(error)

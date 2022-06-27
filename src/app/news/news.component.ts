@@ -9,14 +9,7 @@ import { render } from 'creditcardpayments/creditCardPayments';
 export class NewsComponent implements OnInit {
 
   constructor() {
-    render({
-      id: "#myPaypalButtons",
-      currency: "USD",
-      value: "10.00",
-      onApprove: (details) =>{
-        alert("Transaction Successfull");
-      }
-    });
+    
    }
 
   ngOnInit(): void {
