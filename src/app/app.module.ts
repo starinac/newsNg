@@ -13,6 +13,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NewsComponent } from './news/news.component';
 import { CheckComponent } from './check/check.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { HomeComponent } from './home/home.component';
+import { CreatePostComponent } from './create-post/create-post.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     FooterComponent,
     SignupComponent,
     NewsComponent,
-    CheckComponent
+    CheckComponent,
+    HomeComponent,
+    CreatePostComponent
   ],
   imports: [
     BrowserModule,

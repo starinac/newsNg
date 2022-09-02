@@ -25,7 +25,7 @@ export class AuthService {
   }
 
   refreshToken() {
-    return this.httpClient.post<any>('http://localhost:8080/api/auth/refresh/token',
+    return this.httpClient.post<any>('http://localhost:8080/auth/refresh/token',
       this.refreshTokenPayload)
       .pipe(tap(response => {
         sessionStorage.removeItem('token');

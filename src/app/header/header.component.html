@@ -4,8 +4,8 @@
 
         <ul class="navbar-nav">
             <ng-template [ngIf]="authService.isUserLogedIn()">
-                <li><a *ngIf="authService.isUserLogedIn()" routerLink="/home" class="nav-link">Home</a></li>
-                <li><a *ngIf="authService.isUserLogedIn()" routerLink="/news" class="nav-link">News</a></li>
+                <li><a *ngIf="authService.isUserLogedIn()" routerLink="" class="nav-link">Home</a></li>
+                <li><a *ngIf="authService.isUserLogedIn()" routerLink="/create-post" class="nav-link">Add New Post</a></li>
             </ng-template>
         </ul>
 

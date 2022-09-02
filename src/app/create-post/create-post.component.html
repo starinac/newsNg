@@ -1,0 +1,26 @@
+<form [formGroup]="formGroup">
+  <p>title:</p>
+  <input formControlName="title">
+  <p>content:</p>
+  <input formControlName="content">
+  <p>source:</p>
+  <input formControlName="source">
+  <div>
+
+    <input type="file" (change)="onFileChanged($event)">
+
+    <img [src]="imageUrl" height="200" *ngIf="imageUrl">
+
+  </div>
+
+  <!-- <input type="button" (click)="onUpload()" value="upload"> -->
+
+  <hr />
+
+  <!-- {{ convertedImage }} -->
+  <img [src]="convertedImage" *ngIf="convertedImage"/>
+  <button type="submit" (click)="submit()" [disabled]="formGroup.invalid">
+    Create
+  </button>
+</form>
+<div *ngIf="added" class="text-center text-success">{{added}}</div>
