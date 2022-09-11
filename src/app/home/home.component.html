@@ -12,7 +12,7 @@
                     <div class="panel-body">
                         <div class="image-wrapper">
                             <a class="image-wrapper image-zoom cboxElement" href="#">
-                                <img src="https://via.placeholder.com/700x250/00CED1/000000" alt="Photo of Blog">
+                                <img class="image" [src]="'data:image/jpeg;base64,' + post.image.pic" alt="Photo of Blog">
                                 <div class="image-overlay"></div>
                             </a>
                         </div>
@@ -22,7 +22,7 @@
                             comments</small>
 
                         <p class="m-top-sm m-bottom-sm">
-                            {{post.content.substring(0,100)}}...
+                            {{post.title}}
                         </p>
                         <a [routerLink]="['news', post.postId]"><i class="fa fa-angle-double-right"></i> Read more</a>
                         <!-- <span class="post-like text-muted tooltip-test" data-toggle="tooltip"

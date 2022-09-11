@@ -7,10 +7,19 @@ body {
     margin-top: 20px;
 }
 
+.container {
+    margin-bottom: 50px;
+}
+
 .panel {
     position: relative;
     background: #fff;
     padding-bottom: 15px;
+}
+
+.image {
+    width: 50%;
+    height: 50%;
 }
 
 .image-wrapper {

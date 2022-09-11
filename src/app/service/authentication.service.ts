@@ -22,6 +22,8 @@ export class AuthenticationService {
         data => {
           sessionStorage.setItem(AUTHENTICATED_USER, username);
           sessionStorage.setItem(TOKEN, data.authenticationToken);
+          sessionStorage.setItem(TOKEN, data.authenticationToken);
+          sessionStorage.setItem(TOKEN, data.authenticationToken);
           return data;
         }
       )

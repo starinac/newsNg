@@ -5,5 +5,6 @@ export class PostModel {
     source!: string;
     commentCount!: number;
     datePublished!: string;
-    imageUrl!: string;
+    imageUrl!: any;
+    image: any
 }

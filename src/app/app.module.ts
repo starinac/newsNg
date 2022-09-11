@@ -15,6 +15,7 @@ import { CheckComponent } from './check/check.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { HomeComponent } from './home/home.component';
 import { CreatePostComponent } from './create-post/create-post.component';
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { CreatePostComponent } from './create-post/create-post.component';
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    EditorModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

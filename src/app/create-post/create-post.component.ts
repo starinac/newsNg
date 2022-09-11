@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { NewsService } from '../service/news.service';
 
 @Component({
@@ -9,30 +11,32 @@ import { NewsService } from '../service/news.service';
 })
 export class CreatePostComponent implements OnInit {
 
-  public formGroup: FormGroup;
+  public createPostForm: FormGroup;
+
   public selectedFile: any;
   public event1: any;
   imageUrl: any;
   receivedImageData: any;
   base64Data: any;
   convertedImage: any;
+  uploadedImage: any;
   added = '';
 
-  constructor(public formBuilder: FormBuilder, private newsService: NewsService) {
-    this.formGroup = this.formBuilder.group({
-      title: [null, [Validators.required, Validators.maxLength(30)]],
-      content: [null, [Validators.required, Validators.minLength(20)]],
-      source: [null, [Validators.required]]
-    })
+  constructor(public formBuilder: FormBuilder, private router: Router, private newsService: NewsService, private sanitizer: DomSanitizer) {
+    // this.formGroup = this.formBuilder.group({
+    //   title: [null, [Validators.required, Validators.maxLength(30)]],
+    //   content: [null, [Validators.required, Validators.minLength(20)]],
+    //   source: [null, [Validators.required]]
+    // })
+    this.createPostForm = new FormGroup({
+      title: new FormControl(null, [Validators.required, Validators.maxLength(100)]),
+      content: new FormControl(null, [Validators.required, Validators.minLength(20)]),
+      source: new FormControl('', Validators.required),
+    });
   }
 
   ngOnInit(): void {
-    this.newsService.getImage("2").subscribe(res => {
-      this.receivedImageData = res;
-      // this.base64Data = this.receivedImageData.pic;
-      this.convertedImage = 'data:image/jpeg;base64,' + this.receivedImageData.pic;
-      console.log(this.convertedImage);
-    }, err => {console.log(err)});
+
   }
 
   public onFileChanged(event: any) {
@@ -44,26 +48,45 @@ export class CreatePostComponent implements OnInit {
     reader.readAsDataURL(event.target.files[0]);
     reader.onload = (event2) => {
       this.imageUrl = reader.result;
-      console.log(reader);
     };
 
   }
 
-  submit() {
-    let id: string = "1";
+  arrayBufferToBase64(buffer: any) {
+    var binary = '';
+    var bytes = new Uint8Array(buffer);
+    var len = bytes.byteLength;
+    for (var i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
+  }
+
+  sanitize(url: string) {
+    return this.sanitizer.bypassSecurityTrustUrl(url);
+  }
+
+  createPost() {
     const uploadData = new FormData();
     uploadData.append('myFile', this.selectedFile, this.selectedFile.name);
-    this.newsService.postPost(this.formGroup.value.title, this.formGroup.value.content, this.formGroup.value.source)
-      .subscribe(result => console.log(result), err => console.log(err));
-    this.newsService.postImage(uploadData, id).subscribe(res => {
-      console.log(res);
-      this.receivedImageData = res;
-      this.base64Data = this.receivedImageData.pic;
-      this.convertedImage = 'data:image/jpeg;base64,' + this.base64Data;
-    },
-      err => console.log('Error Occured duringng saving: ' + err));
-    this.formGroup.reset();
+    this.newsService.postPost(this.createPostForm.value.title, this.createPostForm.value.content, this.createPostForm.value.source)
+      .subscribe((result: any) => {
+        console.log(result);
+        this.newsService.postImage(uploadData, result['postId']).subscribe(res => {
+          console.log(res);
+          this.receivedImageData = res;
+          this.base64Data = this.receivedImageData.pic;
+          this.uploadedImage = 'data:image/jpeg;base64,' + res;
+        },
+          err => console.log('Error Occured during saving: ' + err));
+      }, err => console.log(err));
+
+    this.createPostForm.reset();
     this.added = 'Create completed';
+  }
+
+  discardPost() {
+    this.router.navigateByUrl('/');
   }
 
 }

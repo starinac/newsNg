@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SignupRequestPayload } from '../signup/signup-request.payload';
-import {HttpClient} from '@angular/common/http'
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http'
+import { Observable, throwError } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 @Injectable({
@@ -13,13 +13,13 @@ export class AuthService {
     refreshToken: this.getRefreshToken(),
     username: this.getUserName()
   }
-  
+
   constructor(private httpClient: HttpClient) { }
-  
+
   signup(signupRequestPayload: SignupRequestPayload): Observable<any> {
     return this.httpClient.post('http://localhost:8080/auth/signup', signupRequestPayload, { responseType: 'text' });
   }
-  
+
   getJwtToken() {
     return sessionStorage.getItem('token');
   }
@@ -33,8 +33,22 @@ export class AuthService {
 
         sessionStorage.setItem('token',
           response.authenticationToken);
-          sessionStorage.setItem('expiresAt', response.expiresAt);
+        sessionStorage.setItem('expiresAt', response.expiresAt);
       }));
+  }
+
+  logout() {
+    this.httpClient.post('http://localhost:8080/auth/logout', this.refreshTokenPayload,
+      { responseType: 'text' })
+      .subscribe(data => {
+        console.log(data);
+      }, error => {
+        throwError(error);
+      })
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('username');
+    sessionStorage.removeItem('refreshToken');
+    sessionStorage.removeItem('expiresAt');
   }
 
   getUserName() {

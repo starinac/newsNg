@@ -3,13 +3,16 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { API_URL } from '../app.const';
 import { AuthService } from '../auth/shared/auth.service';
+import { CommentPayload } from '../shared/comment.payload';
+import { FavoritePayload } from '../shared/favorite.payload';
 import { PostModel } from '../shared/post-model';
+import { AUTHENTICATED_USER } from './authentication.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NewsService {
-  
+
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
@@ -26,16 +29,44 @@ export class NewsService {
     return this.http.get<Array<PostModel>>('http://localhost:8080/post');
   }
 
+  getPost(postId: number) {
+    return this.http.get<PostModel>('http://localhost:8080/post/' + postId);
+  }
+
+  getAllCommentsForPost(postId: number): Observable<CommentPayload[]> {
+    return this.http.get<CommentPayload[]>('http://localhost:8080/comments/' + postId);
+  }
+
+  postComment(commentPayload: CommentPayload): Observable<any> {
+    return this.http.post<any>('http://localhost:8080/comments/', commentPayload);
+  }
+
+  getAllCommentsByUser(name: string) {
+    return this.http.get<CommentPayload[]>('http://localhost:8080/comments/by-user/' + name);
+  }
+
+  addToFavorites(favoritesPayload: FavoritePayload) {
+    return this.http.post<any>('http://localhost:8080/favorites/', favoritesPayload);
+  }
+
+  getFavorites() {
+    const userName = sessionStorage.getItem(AUTHENTICATED_USER);
+    return this.http.get<FavoritePayload[]>('http://localhost:8080/favorites/' + userName);
+  }
+
+  removeFavorite(favoritesPayload: FavoritePayload) {
+    return this.http.delete<any>(`http://localhost:8080/favorites/${favoritesPayload.postId}`);
+  }
+
   postPost(
     title: string,
     content: string,
-    source: string): Observable<string> {
+    source: string) {
     return this.http.post('http://localhost:8080/post', {
       title: title,
       content: content,
-      source: source
-    },
-      { responseType: 'text' },)
+      source: source,
+    }, { responseType: "json" })
   }
 
   postImage(uploadData: any, id: string) {
@@ -43,7 +74,9 @@ export class NewsService {
   }
 
   getImage(id: string) {
-    return this.http.get(`http://localhost:8080/image/${id}`);
-  }
+    return this.http.get(`http://localhost:8080/image/${id}`, { responseType: "arraybuffer" })
+  };
 
+  // getImage():Observable { return this.http.get(this.serviceUrl) 
+  //   .map((response : Response) => { return response.json(); })} 
 }
