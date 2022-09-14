@@ -6,6 +6,16 @@
             <ng-template [ngIf]="authService.isLoggedIn()">
                 <li><a *ngIf="authService.isLoggedIn()" routerLink="" class="nav-link">Home</a></li>
                 <li><a *ngIf="authService.isLoggedIn()" routerLink="/create-post" class="nav-link">Add New Post</a></li>
+                <!-- <li>
+                    Dropdown
+                    <div class="dropdown"></div>
+                    <ul>
+                        <li>Link 1</li>
+                        <li>Link 2</li>
+                        <li>Link 3</li>
+                    </ul>
+                </li> -->
+                <li *ngFor="let category of categories"><a *ngIf="authService.isLoggedIn()" [routerLink]="'/category/' + category.name" class="nav-link">{{category.name}}</a></li>
             </ng-template>
         </ul>
 

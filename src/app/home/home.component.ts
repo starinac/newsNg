@@ -3,6 +3,7 @@ import { PostModel } from '../shared/post-model';
 import { NewsService } from '../service/news.service'
 import { DomSanitizer } from '@angular/platform-browser';
 import { throwError } from 'rxjs';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -12,11 +13,36 @@ import { throwError } from 'rxjs';
 export class HomeComponent implements OnInit {
 
   posts: Array<PostModel> = [];
+  category: string = "";
+  navigationSubscription: any;
 
-  constructor(private newsService: NewsService, private sanitizer: DomSanitizer) { }
+  constructor(private newsService: NewsService, private sanitizer: DomSanitizer, private activateRoute: ActivatedRoute, private router: Router) { 
+    this.navigationSubscription = this.router.events.subscribe((e: any) => {
+      // If it is a NavigationEnd event re-initalise the component
+      if (e instanceof NavigationEnd) {
+        this.initialiseInvites();
+      }
+    });
+  }
+  initialiseInvites() {
+    this.category = this.activateRoute.snapshot.params.category;
+    console.log(this.category);
+    if(this.category) {
+      this.getPostsForCategory(this.category);
+    } else {
+      this.getPosts();
+    }
+  }
 
   ngOnInit(): void {
-    this.getPosts();
+  }
+
+  getPostsForCategory(category: string) {
+    this.newsService.getAllPostsForCategory(category).subscribe(data => {
+      this.posts = data;
+    }, error => {
+      throwError(error);
+    });
   }
 
   arrayBufferToBase64(buffer: any) {
@@ -37,9 +63,6 @@ export class HomeComponent implements OnInit {
     this.newsService.getAllPosts().subscribe(data => {
       console.log(data);
       this.posts = data;
-      this.posts.forEach(element => {
-        element.imageUrl = this.sanitize('data:image/jpg;base64, ' + this.arrayBufferToBase64(element.image.pic))
-      });
     }, error => {
       throwError(error);
     })

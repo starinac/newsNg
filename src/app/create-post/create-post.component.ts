@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { throwError } from 'rxjs';
 import { NewsService } from '../service/news.service';
+import { CategoryPayload } from '../shared/category.payload';
 
 @Component({
   selector: 'app-create-post',
@@ -12,6 +14,11 @@ import { NewsService } from '../service/news.service';
 export class CreatePostComponent implements OnInit {
 
   public createPostForm: FormGroup;
+  categories: CategoryPayload[];
+  mainCategories: CategoryPayload[];
+  subCategories: CategoryPayload[];
+  selectedCategory!: number;
+  selectedSubCategory!: number;
 
   public selectedFile: any;
   public event1: any;
@@ -33,10 +40,13 @@ export class CreatePostComponent implements OnInit {
       content: new FormControl(null, [Validators.required, Validators.minLength(20)]),
       source: new FormControl('', Validators.required),
     });
+    this.categories = [];
+    this.mainCategories = [];
+    this.subCategories = [];
   }
 
   ngOnInit(): void {
-
+    this.getCategories();
   }
 
   public onFileChanged(event: any) {
@@ -69,7 +79,7 @@ export class CreatePostComponent implements OnInit {
   createPost() {
     const uploadData = new FormData();
     uploadData.append('myFile', this.selectedFile, this.selectedFile.name);
-    this.newsService.postPost(this.createPostForm.value.title, this.createPostForm.value.content, this.createPostForm.value.source)
+    this.newsService.postPost(this.createPostForm.value.title, this.createPostForm.value.content, this.createPostForm.value.source, this.selectedCategory, this.selectedSubCategory)
       .subscribe((result: any) => {
         console.log(result);
         this.newsService.postImage(uploadData, result['postId']).subscribe(res => {
@@ -87,6 +97,26 @@ export class CreatePostComponent implements OnInit {
 
   discardPost() {
     this.router.navigateByUrl('/');
+  }
+
+  getCategories() {
+    this.newsService.getCategories().subscribe(data => {
+      this.categories = data;
+      this.mainCategories = data.filter(c => c.parentId == 0);
+    }, error => {
+      console.log(error);
+    })
+  }
+
+  onSelect(category: any) {
+    this.subCategories = this.categories.filter(c => c.parentId == category.target.value);
+    this.selectedCategory = category.target.value;
+    console.log(this.selectedCategory);
+  }
+
+  onSelectSub(category: any) {
+    this.selectedSubCategory = category.target.value;
+    console.log(this.selectedSubCategory);
   }
 
 }

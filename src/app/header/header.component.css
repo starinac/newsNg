@@ -1,0 +1,23 @@
+.dropdown ul li {
+    list-style-type: none;
+    border-bottom: 1px solid;
+    padding: 4px 0;
+    transition: .3s all ease;
+}
+
+.dropdown {
+    background: #fff;
+    border: 1px solid rgb(226, 226, 226);
+    position: absolute;
+    z-index: 4;
+    padding: 10px;
+    top: 36px;
+    width: 116px;
+    text-align: center;
+
+
+}
+
+.navbar > ul > li {
+    position: relative;
+}

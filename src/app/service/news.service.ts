@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { API_URL } from '../app.const';
 import { AuthService } from '../auth/shared/auth.service';
+import { CategoryPayload } from '../shared/category.payload';
 import { CommentPayload } from '../shared/comment.payload';
 import { FavoritePayload } from '../shared/favorite.payload';
 import { PostModel } from '../shared/post-model';
@@ -45,6 +46,14 @@ export class NewsService {
     return this.http.get<CommentPayload[]>('http://localhost:8080/comments/by-user/' + name);
   }
 
+  getCategories() {
+    return this.http.get<CategoryPayload[]>('http://localhost:8080/categories');
+  }
+
+  getAllPostsForCategory(category: string) {
+    return this.http.get<Array<PostModel>>('http://localhost:8080/post/category/' + category);
+  }
+
   addToFavorites(favoritesPayload: FavoritePayload) {
     return this.http.post<any>('http://localhost:8080/favorites/', favoritesPayload);
   }
@@ -61,11 +70,15 @@ export class NewsService {
   postPost(
     title: string,
     content: string,
-    source: string) {
+    source: string,
+    selectedCategory: number,
+    selectedSubCategory: number) {
+    const category = selectedSubCategory ? selectedSubCategory : selectedCategory;
     return this.http.post('http://localhost:8080/post', {
       title: title,
       content: content,
       source: source,
+      categoryId: category
     }, { responseType: "json" })
   }
 

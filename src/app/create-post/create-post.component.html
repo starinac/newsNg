@@ -36,6 +36,16 @@
 
           <input type="text" class="form-control" [formControlName]="'source'" style="margin-top: 5px" placeholder="Source">
 
+          <select (change)="onSelect($event)" class="form-control" style="margin-top: 5px">
+            <option>Select Category</option>
+            <option *ngFor="let category of mainCategories" value="{{category.id}}">{{category.name}}</option>
+          </select>
+
+          <select (change)="onSelectSub($event)" class="form-control" style="margin-top: 5px">
+            <option>Select Subcategory</option>
+            <option *ngFor="let category of subCategories" value="{{category.id}}">{{category.name}}</option>
+          </select>
+
           <div>
 
             <input type="file" (change)="onFileChanged($event)">

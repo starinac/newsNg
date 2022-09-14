@@ -9,7 +9,8 @@ import { NewsComponent } from './news/news.component';
 import { RouteGuardService } from './service/route-guard.service';
 
 const routes: Routes = [
-  {path: '', component: HomeComponent, canActivate: [RouteGuardService]},
+  {path: '', component: HomeComponent, canActivate: [RouteGuardService], runGuardsAndResolvers: 'always'},
+  {path: 'category/:category', component: HomeComponent, canActivate: [RouteGuardService], runGuardsAndResolvers: 'always'},
   {path: 'login', component: LoginComponent},
   {path: 'news/:id', component: NewsComponent, canActivate: [RouteGuardService]},
   {path: 'check', component: CheckComponent, canActivate: [RouteGuardService]},
@@ -20,7 +21,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
