@@ -3,7 +3,8 @@
     <div class="row">
         <div class="col-md-9 mb40">
             <article>
-                <img [src]="'data:image/jpeg;base64,' + post.image.pic" alt="" class="img-fluid mb30">
+                <img *ngIf="post.image" [src]="'data:image/jpeg;base64,' + post.image.pic" alt="" class="img-fluid mb30">
+                <img *ngIf="post.imageUrl" class="img-fluid mb30" src="{{post.imageUrl}}" alt="Photo of Blog">
                 <div class="post-content">
                     <h3>{{post.title}}</h3>
                     <ul class="post-meta list-inline">

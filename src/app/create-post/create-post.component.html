@@ -15,9 +15,9 @@
 
   <hr /> -->
 
-  <!-- {{ convertedImage }} -->
-  <!-- <img [src]="sanitize('data:image/jpg;base64, ' + arrayBufferToBase64(convertedImage))" *ngIf="convertedImage"/> -->
-  <!-- <button type="submit" (click)="submit()" [disabled]="formGroup.invalid">
+<!-- {{ convertedImage }} -->
+<!-- <img [src]="sanitize('data:image/jpg;base64, ' + arrayBufferToBase64(convertedImage))" *ngIf="convertedImage"/> -->
+<!-- <button type="submit" (click)="submit()" [disabled]="formGroup.invalid">
     Create
   </button>
 </form>
@@ -26,7 +26,7 @@
 <div class="container">
   <div class="row">
     <hr />
-    <div class="create-post-container col-md-9">
+    <div class="create-post-container col-md-8">
       <form class="post-form" [formGroup]="createPostForm" (ngSubmit)="createPost()">
         <div class="form-group">
           <div class="create-post-heading">Create Post</div>
@@ -34,24 +34,26 @@
           <input type="text" [formControlName]="'title'" class="form-control" style="margin-top: 5px"
             placeholder="Title">
 
-          <input type="text" class="form-control" [formControlName]="'source'" style="margin-top: 5px" placeholder="Source">
+          <input type="text" class="form-control" [formControlName]="'source'" style="margin-top: 5px"
+            placeholder="Source">
 
-          <select (change)="onSelect($event)" class="form-control" style="margin-top: 5px">
-            <option>Select Category</option>
+          <select (change)="onSelect($event)" class="form-control" style="margin-top: 5px"
+            [formControlName]="'categoryName'">
+            <option value="" selected disabled>Select Category</option>
             <option *ngFor="let category of mainCategories" value="{{category.id}}">{{category.name}}</option>
           </select>
 
-          <select (change)="onSelectSub($event)" class="form-control" style="margin-top: 5px">
-            <option>Select Subcategory</option>
+          <select class="form-control" style="margin-top: 5px" [formControlName]="'subCategoryName'">
+            <option value="" selected disabled>Select Subcategory</option>
             <option *ngFor="let category of subCategories" value="{{category.id}}">{{category.name}}</option>
           </select>
 
           <div>
 
             <input type="file" (change)="onFileChanged($event)">
-        
+
             <img [src]="imageUrl" height="200" *ngIf="imageUrl">
-        
+
           </div>
 
           <!-- <select class="form-control" style="margin-top: 10px" [formControlName]="'subredditName'">
@@ -80,6 +82,10 @@
           </span>
         </div>
       </form>
+    </div>
+
+    <div class="col-md-4">
+      <button (click)="importNews()">Import sport news</button>
     </div>
   </div>
 </div>

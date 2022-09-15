@@ -90,6 +90,16 @@ export class NewsService {
     return this.http.get(`http://localhost:8080/image/${id}`, { responseType: "arraybuffer" })
   };
 
+  importNews() {
+    return this.http.get('https://newsapi.org/v2/top-headlines?country=rs&category=sports&pageSize=1&apiKey=d2a0c39e5a7b45eaade119e33fdbb764');
+  }
+
+  postImportedNews(posts: PostModel[]) {
+    posts.forEach(post => {
+      this.http.post('http://localhost:8080/post', post).subscribe(data => console.log(data), err => console.log(err));
+    })
+  }
+
   // getImage():Observable { return this.http.get(this.serviceUrl) 
   //   .map((response : Response) => { return response.json(); })} 
 }

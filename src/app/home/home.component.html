@@ -12,8 +12,9 @@
                     <div class="panel-body">
                         <div class="image-wrapper">
                             <a class="image-wrapper image-zoom cboxElement" href="#">
-                                <img class="image" [src]="'data:image/jpeg;base64,' + post.image.pic" alt="Photo of Blog">
-                                <div class="image-overlay"></div>
+                                <img *ngIf="post.image" class="image" [src]="'data:image/jpeg;base64,' + post.image.pic" alt="Photo of Blog">
+                                <img *ngIf="post.imageUrl" class="image" src="{{post.imageUrl}}" alt="Photo of Blog">
+                                <!-- <div class="image-overlay"></div> -->
                             </a>
                         </div>
 
@@ -24,7 +25,8 @@
                         <p class="m-top-sm m-bottom-sm">
                             {{post.title}}
                         </p>
-                        <a [routerLink]="['/news', post.postId]"><i class="fa fa-angle-double-right"></i> Read more</a>
+                        <a *ngIf="!post.urlToPost" [routerLink]="['/news', post.postId]"><i class="fa fa-angle-double-right"></i> Read more</a>
+                        <a *ngIf="post.urlToPost" href="{{post.urlToPost}}" target="_blank"><i class="fa fa-angle-double-right"></i> Read more</a>
                         <!-- <span class="post-like text-muted tooltip-test" data-toggle="tooltip"
                             data-original-title="I like this post!">
                             <i class="fa fa-heart"></i> <span class="like-count">25</span>

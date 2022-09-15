@@ -3,8 +3,10 @@ export class PostModel {
     title!: string;
     content!: string;
     source!: string;
+    categoryId!: number;
     commentCount!: number;
     datePublished!: string;
-    imageUrl!: any;
+    imageUrl!: string;
+    urlToPost!: string;
     image: any
 }

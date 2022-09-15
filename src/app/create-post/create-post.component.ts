@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
 import { NewsService } from '../service/news.service';
 import { CategoryPayload } from '../shared/category.payload';
+import { PostModel } from '../shared/post-model';
 
 @Component({
   selector: 'app-create-post',
@@ -39,6 +40,8 @@ export class CreatePostComponent implements OnInit {
       title: new FormControl(null, [Validators.required, Validators.maxLength(100)]),
       content: new FormControl(null, [Validators.required, Validators.minLength(20)]),
       source: new FormControl('', Validators.required),
+      categoryName: new FormControl('', Validators.required),
+      subCategoryName: new FormControl('', Validators.required)
     });
     this.categories = [];
     this.mainCategories = [];
@@ -79,7 +82,11 @@ export class CreatePostComponent implements OnInit {
   createPost() {
     const uploadData = new FormData();
     uploadData.append('myFile', this.selectedFile, this.selectedFile.name);
-    this.newsService.postPost(this.createPostForm.value.title, this.createPostForm.value.content, this.createPostForm.value.source, this.selectedCategory, this.selectedSubCategory)
+    this.newsService.postPost(this.createPostForm.value.title,
+      this.createPostForm.value.content,
+      this.createPostForm.value.source,
+      this.createPostForm.value.categoryName,
+      this.createPostForm.value.subCategoryName)
       .subscribe((result: any) => {
         console.log(result);
         this.newsService.postImage(uploadData, result['postId']).subscribe(res => {
@@ -110,13 +117,31 @@ export class CreatePostComponent implements OnInit {
 
   onSelect(category: any) {
     this.subCategories = this.categories.filter(c => c.parentId == category.target.value);
-    this.selectedCategory = category.target.value;
-    console.log(this.selectedCategory);
   }
 
-  onSelectSub(category: any) {
-    this.selectedSubCategory = category.target.value;
-    console.log(this.selectedSubCategory);
+  importNews() {
+    this.newsService.importNews().subscribe((data: any) => {
+      console.log(data);
+      const posts: PostModel[] = this.mapToPost(data.articles);
+      this.newsService.postImportedNews(posts);
+    }, error => {
+      console.log(error);
+    })
   }
 
+  mapToPost(data: any): PostModel[] {
+    let posts: PostModel[] = [];
+    data.forEach((element: any) => {
+      let post: PostModel = new PostModel;
+      post.title = element.title;
+      post.source = element.source.name;
+      post.content = element.content;
+      post.datePublished = element.publishedAt;
+      post.imageUrl = element.urlToImage;
+      post.urlToPost = element.url;
+      post.categoryId = 2;
+      posts.push(post);
+    });
+    return posts;
+  }
 }
