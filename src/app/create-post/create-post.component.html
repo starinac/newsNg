@@ -23,6 +23,7 @@
 </form>
 <div *ngIf="added" class="text-center text-success">{{added}}</div> -->
 
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container">
   <div class="row">
     <hr />
@@ -85,7 +86,7 @@
     </div>
 
     <div class="col-md-4">
-      <button (click)="importNews()">Import sport news</button>
+      <button class="favorite-button" (click)="importNews()"><i class="fa fa-cloud-download"></i> Import sport news</button>
     </div>
   </div>
 </div>

@@ -281,3 +281,8 @@ Template sidebar
 .commentButton {
     margin-top: 10px;
 }
+
+.favorite-button {
+    border-radius: 12px;
+    border: outset;
+}

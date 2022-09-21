@@ -1,21 +1,23 @@
 <header>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-        <div><a href="/" class="navbar-brand">News</a></div>
+        <div class="nav-brend"><a href="/" class="navbar-brand">News</a></div>
 
         <ul class="navbar-nav">
             <ng-template [ngIf]="authService.isLoggedIn()">
                 <li><a *ngIf="authService.isLoggedIn()" routerLink="" class="nav-link">Home</a></li>
                 <li><a *ngIf="authService.isLoggedIn()" routerLink="/create-post" class="nav-link">Add New Post</a></li>
-                <!-- <li>
-                    Dropdown
-                    <div class="dropdown"></div>
-                    <ul>
-                        <li>Link 1</li>
-                        <li>Link 2</li>
-                        <li>Link 3</li>
-                    </ul>
-                </li> -->
-                <li *ngFor="let category of categories"><a *ngIf="authService.isLoggedIn()" [routerLink]="'/category/' + category.name" class="nav-link">{{category.name}}</a></li>
+                <li [routerLink]="'/category/Business'" class="nav-link">Business</li>
+                <li [routerLink]="'/category/Sports'" class="nav-link">Sports</li>
+                <div class="drop-relative">
+                    <li class="nav-link">Technology</li>
+                    <div class="drop-block">
+                        <li [routerLink]="'/category/Mobile'">Mobile</li>
+                        <li [routerLink]="'/category/Gadgets'">Gadgets</li>
+                        <li [routerLink]="'/category/Internet'">Internet</li>
+                    </div>
+                </div>
+                <li [routerLink]="'/category/Entertainment'" class="nav-link">Entertainment</li>
+                <!-- <li *ngFor="let category of categories"><a *ngIf="authService.isLoggedIn()" [routerLink]="'/category/' + category.name" class="nav-link">{{category.name}}</a></li> -->
             </ng-template>
         </ul>
 

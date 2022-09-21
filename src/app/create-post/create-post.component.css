@@ -83,3 +83,8 @@
   width: 288px;
   height: 34px;
 }
+
+.favorite-button {
+  border-radius: 12px;
+  border: outset;
+}

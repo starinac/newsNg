@@ -1,23 +1,31 @@
-.dropdown ul li {
-    list-style-type: none;
-    border-bottom: 1px solid;
-    padding: 4px 0;
-    transition: .3s all ease;
+ul li {
+    height: 38px;
+    cursor: pointer;
 }
 
-.dropdown {
-    background: #fff;
-    border: 1px solid rgb(226, 226, 226);
-    position: absolute;
-    z-index: 4;
-    padding: 10px;
-    top: 36px;
-    width: 116px;
-    text-align: center;
-
-
-}
-
-.navbar > ul > li {
+.drop-relative {
     position: relative;
+
+}
+
+.drop-relative:hover .drop-block {
+    margin-top: -5px;
+    display: block;
+    padding-left: 10%;
+
+}
+
+.drop-block {
+    background-color: #212529;
+    color: #9b9d9e;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 40px;
+    display: none;
+    z-index: 2;
+}
+
+.nav-brend {
+    margin-left: 1%;
 }
