@@ -18,67 +18,17 @@
                             </a>
                         </div>
 
-                        <small class="text-muted">By <a href="#"><strong> {{post.source}}</strong></a> | {{post.datePublished}} |
+                        <small class="text-muted">By <a href="#"><strong> {{post.source}}</strong></a> | {{this.setDateTime(post.datePublished)}} |
                             {{post.commentCount || 0}}
                             comments</small>
 
-                        <p class="m-top-sm m-bottom-sm">
+                        <p class="m-top-sm m-bottom-sm post-title">
                             {{post.title}}
                         </p>
                         <a *ngIf="!post.urlToPost" [routerLink]="['/news', post.postId]"><i class="fa fa-angle-double-right"></i> Read more</a>
                         <a *ngIf="post.urlToPost" href="{{post.urlToPost}}" target="_blank"><i class="fa fa-angle-double-right"></i> Read more</a>
-                        <!-- <span class="post-like text-muted tooltip-test" data-toggle="tooltip"
-                            data-original-title="I like this post!">
-                            <i class="fa fa-heart"></i> <span class="like-count">25</span>
-                        </span> -->
+                        <hr>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <h4 class="headline text-muted">
-                POPULAR POST
-                <span class="line"></span>
-            </h4>
-            <div class="media popular-post">
-                <a class="pull-left" href="#">
-                    <img src="https://via.placeholder.com/60x60/9400D3/000000" alt="Popular Post">
-                </a>
-                <div class="media-body">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </div>
-            </div>
-            <div class="media popular-post">
-                <a class="pull-left" href="#">
-                    <img src="https://via.placeholder.com/60x60/4B0082/000000" alt="Popular Post">
-                </a>
-                <div class="media-body">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </div>
-            </div>
-            <div class="media popular-post">
-                <a class="pull-left" href="#">
-                    <img src="https://via.placeholder.com/60x60/E6E6FA/000000" alt="Popular Post">
-                </a>
-                <div class="media-body">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </div>
-            </div>
-            <div class="media popular-post">
-                <a class="pull-left" href="#">
-                    <img src="https://via.placeholder.com/60x60/FFFACD/000000" alt="Popular Post">
-                </a>
-                <div class="media-body">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </div>
-            </div>
-            <div class="media popular-post">
-                <a class="pull-left" href="#">
-                    <img src="https://via.placeholder.com/60x60/E0FFFF/000000" alt="Popular Post">
-                </a>
-                <div class="media-body">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                 </div>
             </div>
         </div>

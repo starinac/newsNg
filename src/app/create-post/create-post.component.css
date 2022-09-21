@@ -87,4 +87,6 @@
 .favorite-button {
   border-radius: 12px;
   border: outset;
+  width: 60%;
+  height: 7%;
 }

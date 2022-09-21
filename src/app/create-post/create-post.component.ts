@@ -144,4 +144,8 @@ export class CreatePostComponent implements OnInit {
     });
     return posts;
   }
+
+  goToPay() {
+    this.router.navigateByUrl('check');
+  }
 }

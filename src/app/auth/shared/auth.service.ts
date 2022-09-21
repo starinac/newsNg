@@ -55,7 +55,7 @@ export class AuthService {
     return sessionStorage.getItem('authenticantedUser');
   }
   getRefreshToken() {
-    return sessionStorage.getItem('token');
+    return sessionStorage.getItem('refreshToken');
   }
 
   isLoggedIn(): boolean {

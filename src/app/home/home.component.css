@@ -104,3 +104,8 @@ h4,
     overflow: hidden;
     zoom: 1;
 }
+
+.post-title {
+    font-size: larger;
+    font-weight: bold;
+}

@@ -4,6 +4,7 @@ import { NewsService } from '../service/news.service'
 import { DomSanitizer } from '@angular/platform-browser';
 import { throwError } from 'rxjs';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,7 @@ export class HomeComponent implements OnInit {
   category: string = "";
   navigationSubscription: any;
 
-  constructor(private newsService: NewsService, private sanitizer: DomSanitizer, private activateRoute: ActivatedRoute, private router: Router) { 
+  constructor(private newsService: NewsService, private sanitizer: DomSanitizer, private activateRoute: ActivatedRoute, private router: Router) {
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
       // If it is a NavigationEnd event re-initalise the component
       if (e instanceof NavigationEnd) {
@@ -27,7 +28,7 @@ export class HomeComponent implements OnInit {
   initialiseInvites() {
     this.category = this.activateRoute.snapshot.params.category;
     console.log(this.category);
-    if(this.category) {
+    if (this.category) {
       this.getPostsForCategory(this.category);
     } else {
       this.getPosts();
@@ -66,6 +67,17 @@ export class HomeComponent implements OnInit {
     }, error => {
       throwError(error);
     })
+  }
+
+  setDateTime(dateTime: any) {
+    const converted = new Date(dateTime * 1000);
+    let pipe = new DatePipe('en-US');
+
+    const time = pipe.transform(converted, 'mediumTime', 'UTC');
+
+    const date = pipe.transform(converted, 'MM/dd/yyyy', 'UTC');
+
+    return date + ' ' + time;
   }
 
 }

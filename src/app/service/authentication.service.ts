@@ -5,6 +5,7 @@ import {map} from 'rxjs/operators';
 
 export const AUTHENTICATED_USER = 'authenticantedUser';
 export const TOKEN = 'token';
+export const REFRESH_TOKEN = 'refreshToken';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +23,7 @@ export class AuthenticationService {
         data => {
           sessionStorage.setItem(AUTHENTICATED_USER, username);
           sessionStorage.setItem(TOKEN, data.authenticationToken);
-          sessionStorage.setItem(TOKEN, data.authenticationToken);
-          sessionStorage.setItem(TOKEN, data.authenticationToken);
+          sessionStorage.setItem(REFRESH_TOKEN, data.refreshToken);
           return data;
         }
       )
