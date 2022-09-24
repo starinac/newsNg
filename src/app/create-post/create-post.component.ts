@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { throwError } from 'rxjs';
 import { NewsService } from '../service/news.service';
 import { CategoryPayload } from '../shared/category.payload';
@@ -29,13 +30,10 @@ export class CreatePostComponent implements OnInit {
   convertedImage: any;
   uploadedImage: any;
   added = '';
+  payed: boolean = false;
 
-  constructor(public formBuilder: FormBuilder, private router: Router, private newsService: NewsService, private sanitizer: DomSanitizer) {
-    // this.formGroup = this.formBuilder.group({
-    //   title: [null, [Validators.required, Validators.maxLength(30)]],
-    //   content: [null, [Validators.required, Validators.minLength(20)]],
-    //   source: [null, [Validators.required]]
-    // })
+  constructor(public formBuilder: FormBuilder, private router: Router, private newsService: NewsService, private sanitizer: DomSanitizer
+    , private toastr: ToastrService) {
     this.createPostForm = new FormGroup({
       title: new FormControl(null, [Validators.required, Validators.maxLength(100)]),
       content: new FormControl(null, [Validators.required, Validators.minLength(20)]),
@@ -88,7 +86,7 @@ export class CreatePostComponent implements OnInit {
       this.createPostForm.value.categoryName,
       this.createPostForm.value.subCategoryName)
       .subscribe((result: any) => {
-        console.log(result);
+        this.toastr.success("You successfully saved new post");
         this.newsService.postImage(uploadData, result['postId']).subscribe(res => {
           console.log(res);
           this.receivedImageData = res;
@@ -96,7 +94,7 @@ export class CreatePostComponent implements OnInit {
           this.uploadedImage = 'data:image/jpeg;base64,' + res;
         },
           err => console.log('Error Occured during saving: ' + err));
-      }, err => console.log(err));
+      }, err => this.toastr.error("Some error occurred while trying to create new post."));
 
     this.createPostForm.reset();
     this.added = 'Create completed';
@@ -121,11 +119,11 @@ export class CreatePostComponent implements OnInit {
 
   importNews() {
     this.newsService.importNews().subscribe((data: any) => {
-      console.log(data);
       const posts: PostModel[] = this.mapToPost(data.articles);
       this.newsService.postImportedNews(posts);
+      this.toastr.success("You successfully imported posts");
     }, error => {
-      console.log(error);
+      this.toastr.error("Some error occurred while trying to import posts");
     })
   }
 

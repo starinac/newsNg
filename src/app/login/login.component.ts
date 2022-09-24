@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from '../service/authentication.service';
 
 @Component({
@@ -11,11 +12,10 @@ export class LoginComponent implements OnInit {
 
   username = '';
   password = '';
-  errorMessage = 'Invalid credentials';
   invalidLogin = false;
   
 
-  constructor(private router: Router, private authenticationService: AuthenticationService) { }
+  constructor(private router: Router, private authenticationService: AuthenticationService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
   }
@@ -27,8 +27,8 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl('/');
       },
       error => {
+        this.toastr.error("Bad credentials");
         console.log(error)
-        this.invalidLogin = true
       }
     )
     

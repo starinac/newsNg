@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { throwError } from 'rxjs';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +18,8 @@ export class HomeComponent implements OnInit {
   category: string = "";
   navigationSubscription: any;
 
-  constructor(private newsService: NewsService, private sanitizer: DomSanitizer, private activateRoute: ActivatedRoute, private router: Router) {
+  constructor(private newsService: NewsService, private sanitizer: DomSanitizer, private activateRoute: ActivatedRoute, private router: Router,
+    private toastr: ToastrService) {
     this.navigationSubscription = this.router.events.subscribe((e: any) => {
       // If it is a NavigationEnd event re-initalise the component
       if (e instanceof NavigationEnd) {
@@ -41,6 +43,9 @@ export class HomeComponent implements OnInit {
   getPostsForCategory(category: string) {
     this.newsService.getAllPostsForCategory(category).subscribe(data => {
       this.posts = data;
+      if (data.length === 0) {
+        this.toastr.info("Posts not found");
+      }
     }, error => {
       throwError(error);
     });

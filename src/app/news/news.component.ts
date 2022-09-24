@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { throwError } from 'rxjs';
 import { NewsService } from '../service/news.service';
 import { CommentPayload } from '../shared/comment.payload';
@@ -24,20 +25,21 @@ export class NewsComponent implements OnInit {
   comments!: CommentPayload[];
 
   constructor(private newsService: NewsService,
-    private activateRoute: ActivatedRoute) {
-      this.postId = this.activateRoute.snapshot.params.id;
+    private activateRoute: ActivatedRoute,
+    private toastr: ToastrService) {
+    this.postId = this.activateRoute.snapshot.params.id;
 
-      this.commentForm = new FormGroup({
-        text: new FormControl('', Validators.required)
-      });
-      this.commentPayload = {
-        text: '',
-        postId: this.postId,
-      };
-      this.favoritePayload = {
-        postId: this.postId
-      }
-   }
+    this.commentForm = new FormGroup({
+      text: new FormControl('', Validators.required)
+    });
+    this.commentPayload = {
+      text: '',
+      postId: this.postId,
+    };
+    this.favoritePayload = {
+      postId: this.postId
+    }
+  }
 
   ngOnInit(): void {
     this.getPostById();
@@ -46,20 +48,22 @@ export class NewsComponent implements OnInit {
     this.newsService.getFavorites().subscribe(data => {
       data.forEach(element => {
         console.log(element);
-        if(element.postId == this.postId) {
+        if (element.postId == this.postId) {
           this.favorite = true;
         }
       });
     })
-    
+
   }
 
   postComment() {
     this.commentPayload.text = this.commentForm.value.text;
     this.newsService.postComment(this.commentPayload).subscribe(data => {
       this.commentForm.value.text = '';
+      this.toastr.success("You successfully posted a comment");
       this.getCommentsForPost();
     }, error => {
+      this.toastr.error("Some error occurred while trying to post a comment");
       throwError(error);
     })
   }
@@ -83,7 +87,9 @@ export class NewsComponent implements OnInit {
   addToFavorites() {
     this.newsService.addToFavorites(this.favoritePayload).subscribe(data => {
       this.favorite = true;
+      this.toastr.success("You successfully added post to favorites");
     }, error => {
+      this.toastr.error("Some error occurred while trying to add post to favorites.");
       throwError(error);
     })
   }
@@ -91,7 +97,9 @@ export class NewsComponent implements OnInit {
   removeFavorite() {
     this.newsService.removeFavorite(this.favoritePayload).subscribe(data => {
       this.favorite = false;
+      this.toastr.success("You successfully removed post from favorites");
     }, error => {
+      this.toastr.error("Some error occurred while trying to remove post from favorites.");
       throwError(error);
     })
   }
