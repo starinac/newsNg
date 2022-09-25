@@ -100,6 +100,8 @@ export class NewsService {
     })
   }
 
-  // getImage():Observable { return this.http.get(this.serviceUrl) 
-  //   .map((response : Response) => { return response.json(); })} 
+  checkPayment() {
+    const username = sessionStorage.getItem(AUTHENTICATED_USER);
+    return this.http.get<any>('http://localhost:8080/auth/check/' + username);
+  }
 }

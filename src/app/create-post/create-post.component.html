@@ -86,8 +86,8 @@
     </div>
 
     <div class="col-md-4">
-      <button *ngIf="!payed" class="favorite-button" (click)="importNews()"><i class="fa fa-cloud-download"></i> Import sport news</button>
-      <button *ngIf="payed" class="favorite-button" (click)="goToPay()">Pay to import news</button>
+      <button *ngIf="payed" class="favorite-button" (click)="importNews()"><i class="fa fa-cloud-download"></i> Import sport news</button>
+      <button *ngIf="!payed" class="favorite-button" (click)="goToPay()">Pay to import news</button>
     </div>
   </div>
 </div>

@@ -48,6 +48,7 @@ export class CreatePostComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCategories();
+    this.checkPayment();
   }
 
   public onFileChanged(event: any) {
@@ -108,6 +109,14 @@ export class CreatePostComponent implements OnInit {
     this.newsService.getCategories().subscribe(data => {
       this.categories = data;
       this.mainCategories = data.filter(c => c.parentId == 0);
+    }, error => {
+      console.log(error);
+    })
+  }
+
+  checkPayment(){
+    this.newsService.checkPayment().subscribe(data => {
+      this.payed = data.payed;
     }, error => {
       console.log(error);
     })

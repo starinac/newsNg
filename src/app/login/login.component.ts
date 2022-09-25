@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from '../service/authentication.service';
 
@@ -13,11 +13,20 @@ export class LoginComponent implements OnInit {
   username = '';
   password = '';
   invalidLogin = false;
+  registerSuccessMessage: string = '';
   
 
-  constructor(private router: Router, private authenticationService: AuthenticationService, private toastr: ToastrService) { }
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private authenticationService: AuthenticationService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
+    this.activatedRoute.queryParams
+      .subscribe(params => {
+        if (params.registered !== undefined && params.registered === 'true') {
+          this.toastr.success('Signup Successful');
+          this.registerSuccessMessage = 'Please Check your inbox for activation email '
+            + 'activate your account before you Login!';
+        }
+      });
   }
 
   handleLogin() {
@@ -27,7 +36,11 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl('/');
       },
       error => {
-        this.toastr.error("Bad credentials");
+        if(error.error.trace.includes('DisabledException')) {
+          this.toastr.error("User not active");
+        } else {
+          this.toastr.error("Bad credentials");
+        }
         console.log(error)
       }
     )
