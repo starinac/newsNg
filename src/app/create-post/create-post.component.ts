@@ -39,7 +39,7 @@ export class CreatePostComponent implements OnInit {
       content: new FormControl(null, [Validators.required, Validators.minLength(20)]),
       source: new FormControl('', Validators.required),
       categoryName: new FormControl('', Validators.required),
-      subCategoryName: new FormControl('', Validators.required)
+      subCategoryName: new FormControl('')
     });
     this.categories = [];
     this.mainCategories = [];
@@ -79,6 +79,14 @@ export class CreatePostComponent implements OnInit {
   }
 
   createPost() {
+    if (!this.createPostForm.valid) {
+      this.toastr.error("Form is not valid!");
+      return;
+    }
+    if(this.selectedFile == null) {
+      this.toastr.error("Image is not selected!");
+      return;
+    }
     const uploadData = new FormData();
     uploadData.append('myFile', this.selectedFile, this.selectedFile.name);
     this.newsService.postPost(this.createPostForm.value.title,
@@ -114,7 +122,7 @@ export class CreatePostComponent implements OnInit {
     })
   }
 
-  checkPayment(){
+  checkPayment() {
     this.newsService.checkPayment().subscribe(data => {
       this.payed = data.payed;
     }, error => {

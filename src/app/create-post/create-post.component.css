@@ -84,6 +84,10 @@
   height: 34px;
 }
 
+.btnCreatePost:disabled {
+  background-color: gray;
+}
+
 .favorite-button {
   border-radius: 12px;
   border: outset;

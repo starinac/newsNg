@@ -3,19 +3,20 @@
     <div class="row">
         <div class="col-md-9 mb40">
             <article>
-                <img *ngIf="post.image" [src]="'data:image/jpeg;base64,' + post.image.pic" alt="" class="img-fluid mb30">
+                <img *ngIf="post.image" [src]="'data:image/jpeg;base64,' + post.image.pic" alt=""
+                    class="img-fluid mb30">
                 <img *ngIf="post.imageUrl" class="img-fluid mb30" src="{{post.imageUrl}}" alt="Photo of Blog">
                 <div class="post-content">
                     <h3>{{post.title}}</h3>
                     <ul class="post-meta list-inline">
                         <li class="list-inline-item">
-                            <i class="fa fa-user-circle-o"></i> <a href="#">John Doe</a>
+                            <i class="fa fa-user-circle-o"></i> <a>nikola</a>
                         </li>
                         <li class="list-inline-item">
-                            <i class="fa fa-calendar-o"></i> <a href="#">29 June 2017</a>
+                            <i class="fa fa-calendar-o"></i> <a>{{this.setDateTime(post.datePublished)}}</a>
                         </li>
                         <li class="list-inline-item">
-                            <i class="fa fa-tags"></i> <a href="#">{{post.source}}</a>
+                            <i class="fa fa-tags"></i> <a>{{post.source}}</a>
                         </li>
                     </ul>
                     <p [innerHtml]="post.content"></p>
@@ -84,8 +85,10 @@
                         <button class="input-group-addon" id="basic-addon2"><i class="fa fa-search"></i></button>
                     </div>
                 </form> -->
-                <button class="favorite-button" *ngIf="!favorite" (click)="addToFavorites()"><i class="fa fa-heart-o"></i> Add to Favorites</button>
-                <button class="favorite-button" *ngIf="favorite" (click)="removeFavorite()"><i class="fa fa-heart"></i> Added to Favorites</button>
+                <button class="favorite-button" *ngIf="!favorite" (click)="addToFavorites()"><i
+                        class="fa fa-heart-o"></i> Add to Favorites</button>
+                <button class="favorite-button" *ngIf="favorite" (click)="removeFavorite()"><i class="fa fa-heart"></i>
+                    Added to Favorites</button>
             </div>
             <!--/col-->
         </div>

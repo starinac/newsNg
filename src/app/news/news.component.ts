@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -102,6 +103,17 @@ export class NewsComponent implements OnInit {
       this.toastr.error("Some error occurred while trying to remove post from favorites.");
       throwError(error);
     })
+  }
+
+  setDateTime(dateTime: any) {
+    const converted = new Date(dateTime * 1000);
+    let pipe = new DatePipe('en-US');
+
+    const time = pipe.transform(converted, 'mediumTime', 'UTC');
+
+    const date = pipe.transform(converted, 'MM/dd/yyyy', 'UTC');
+
+    return date + ' ' + time;
   }
 
 }
