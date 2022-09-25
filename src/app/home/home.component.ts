@@ -29,8 +29,19 @@ export class HomeComponent implements OnInit {
   }
   initialiseInvites() {
     this.category = this.activateRoute.snapshot.params.category;
-    console.log(this.category);
-    if (this.category) {
+    if (this.activateRoute.snapshot.routeConfig?.path == 'favorites') {
+      this.newsService.getFavorites().subscribe(data => {
+        data.forEach(element => {
+          if (element.post) {
+            this.posts.push(element.post)
+          }
+        }
+        )
+      }, error => {
+        throwError(error);
+      });
+    }
+    else if (this.category) {
       this.getPostsForCategory(this.category);
     } else {
       this.getPosts();

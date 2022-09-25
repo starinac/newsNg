@@ -11,6 +11,7 @@ import { RouteGuardService } from './service/route-guard.service';
 const routes: Routes = [
   {path: '', component: HomeComponent, canActivate: [RouteGuardService], runGuardsAndResolvers: 'always'},
   {path: 'category/:category', component: HomeComponent, canActivate: [RouteGuardService], runGuardsAndResolvers: 'always'},
+  {path: 'favorites', component: HomeComponent, canActivate: [RouteGuardService], runGuardsAndResolvers: 'always'},
   {path: 'login', component: LoginComponent},
   {path: 'news/:id', component: NewsComponent, canActivate: [RouteGuardService]},
   {path: 'check', component: CheckComponent, canActivate: [RouteGuardService]},

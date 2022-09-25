@@ -29,6 +29,9 @@
                 <li><a routerLink="/sign-up" class="nav-link">Sign Up</a></li>
             </ng-template>
             <ng-template [ngIf]="authService.isLoggedIn()">
+                <li><a routerLink="/favorites" class="nav-link">My favorites</a></li>
+            </ng-template>
+            <ng-template [ngIf]="authService.isLoggedIn()">
                 <li><a (click)="onLogout()" routerLink="/logout" class="nav-link">Logout</a></li>
             </ng-template>
         </ul>
