@@ -16,6 +16,7 @@ import { PostModel } from '../shared/post-model';
 export class CreatePostComponent implements OnInit {
 
   public createPostForm: FormGroup;
+  public importForm: FormGroup;
   categories: CategoryPayload[];
   mainCategories: CategoryPayload[];
   subCategories: CategoryPayload[];
@@ -40,6 +41,9 @@ export class CreatePostComponent implements OnInit {
       source: new FormControl('', Validators.required),
       categoryName: new FormControl('', Validators.required),
       subCategoryName: new FormControl('')
+    });
+    this.importForm = new FormGroup({
+      categoryName: new FormControl('', Validators.required),
     });
     this.categories = [];
     this.mainCategories = [];
@@ -135,7 +139,11 @@ export class CreatePostComponent implements OnInit {
   }
 
   importNews() {
-    this.newsService.importNews().subscribe((data: any) => {
+    if(this.importForm.value.categoryName == '') {
+      this.toastr.error("Please select category to import");
+      return;
+    }
+    this.newsService.importNews(this.importForm.value.categoryName).subscribe((data: any) => {
       const posts: PostModel[] = this.mapToPost(data.articles);
       this.newsService.postImportedNews(posts);
       this.toastr.success("You successfully imported posts");
@@ -154,10 +162,23 @@ export class CreatePostComponent implements OnInit {
       post.datePublished = element.publishedAt;
       post.imageUrl = element.urlToImage;
       post.urlToPost = element.url;
-      post.categoryId = 2;
+      post.categoryId = this.mapCategory();
       posts.push(post);
     });
     return posts;
+  }
+
+  mapCategory() {
+    switch(this.importForm.value.categoryName) {
+      case 'business':
+        return 1
+      case 'sports':
+        return 2
+      case 'entertainment':
+        return 4
+      default:
+        return 1
+    }
   }
 
   goToPay() {

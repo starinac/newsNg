@@ -34,6 +34,10 @@ export class SignupComponent implements OnInit {
   }
 
   signup() {
+    if(!this.signupForm.valid) {
+      this.toastr.error("Please fill out required fields");
+      return;
+    }
     this.signupRequestPayload.email = this.signupForm.get('email')?.value;
     this.signupRequestPayload.username = this.signupForm.get('username')?.value;
     this.signupRequestPayload.password = this.signupForm.get('password')?.value;

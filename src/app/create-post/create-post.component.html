@@ -80,9 +80,20 @@
       </form>
     </div>
 
-    <div class="col-md-4">
-      <button *ngIf="payed" class="favorite-button" (click)="importNews()"><i class="fa fa-cloud-download"></i> Import sport news</button>
-      <button *ngIf="!payed" class="favorite-button" (click)="goToPay()">Pay to import news</button>
+    <div *ngIf="payed" class="col-md-4">
+      <form [formGroup]="importForm" (ngSubmit)="importNews()">
+        <select class="form-control" style="margin-top: 5px" [formControlName]="'categoryName'">
+          <option value="" selected disabled>Select Category For Import</option>
+          <option value="business">Business</option>
+          <option value="sports">Sports</option>
+          <option value="entertainment">Entertainment</option>
+        </select>
+
+        <button class="favorite-button" type="submit"><i class="fa fa-cloud-download"></i> Import news</button>
+      </form>
+    </div>
+    <div *ngIf="!payed" class="col-md-4">
+      <button class="favorite-button" (click)="goToPay()">Pay to import news</button>
     </div>
   </div>
 </div>

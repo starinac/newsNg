@@ -90,8 +90,8 @@ export class NewsService {
     return this.http.get(`http://localhost:8080/image/${id}`, { responseType: "arraybuffer" })
   };
 
-  importNews() {
-    return this.http.get('https://newsapi.org/v2/top-headlines?country=rs&category=sports&pageSize=1&apiKey=d2a0c39e5a7b45eaade119e33fdbb764');
+  importNews(category: string) {
+    return this.http.get(`https://newsapi.org/v2/top-headlines?country=rs&category=${category}&pageSize=1&apiKey=d2a0c39e5a7b45eaade119e33fdbb764`);
   }
 
   postImportedNews(posts: PostModel[]) {
